@@ -2,18 +2,24 @@
 language: python
 python: "2.7"
 
+env:
+  - PLESK_VERSION=PLESK_12_5_30
+  - PLESK_VERSION=PLESK_12_0_18
+  - PLESK_VERSION=PLESK_11_5_30
+
 before_install:
   - sudo apt-get update -qq
 
 install:
   - pip install ansible
-
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
   - ansible -i tests/inventory --connection=local localhost -m setup
+  - echo $PLESK_VERSION
 
 script:
   - "ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
   - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo"
     #  - "plesk version"
   - "cat /usr/local/psa/version"
+
 # vi: ts=2 sts=2 et sw=2 tw=80
