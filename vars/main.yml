@@ -1,0 +1,16 @@
+---
+
+plesk_release_id: PLESK_12_0_18
+admin_password: changeme
+# Initial configuration variables
+email: test@mycompany.com
+hostname: server.myserver.com
+company: My Company
+name: Hosting Services
+phone: +1234567890
+address: Address Str. 1
+city: My City
+state: My State
+zip: 12345
+country: GR
+# vi: ts=2 sts=2 et sw=2 tw=80

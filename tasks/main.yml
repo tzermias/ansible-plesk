@@ -1,0 +1,17 @@
+---
+
+#TODO: Maybe some checks here for disk size, open ports etc.
+- name: Download Plesk installer
+  get_url: url=http://autoinstall.plesk.com/plesk-installer dest=/root/plesk-installer mode=0700
+- name: Run Plesk installer
+  shell: /root/plesk-installer --select-product-id=plesk --select-release-id "{{ plesk_release_id }}" --installation-type Typical
+  args:
+    creates: /usr/sbin/plesk
+
+- name: Run Plesk initial configuration
+  shell: plesk bin init_conf --init -passwd '' -email "{{ email }}" -license_agreed true -default-ip "$main_ip" -ip-type shared -hostname "{{ hostname }}" -send_announce false -send_tech_announce false -company "{{ company }}" -name "{{ name }}" -phone "{{ phone }}" -address "{{ address }}" -city "{{ city }}" -state "{{ state }}" -zip "{{ zip }} " -country "{{ country }}"
+
+- name: Disable poweruser mode
+  shell: plesk bin poweruser --off
+
+# vi: ts=2 sts=2 et sw=2 tw=80 
