@@ -1,0 +1,7 @@
+---
+# Only for testing purposes.
+
+- hosts: localhost
+  remote_user: root
+  roles:
+    - ansible-plesk

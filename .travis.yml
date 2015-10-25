@@ -1,0 +1,15 @@
+---
+language: python
+python: "2.7"
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - pip install ansible
+
+  - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+
+script:
+  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+# vi: ts=2 sts=2 et sw=2 tw=80
