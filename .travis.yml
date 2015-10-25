@@ -14,11 +14,10 @@ install:
   - pip install ansible
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
   - ansible -i tests/inventory --connection=local localhost -m setup
-  - echo $PLESK_VERSION
 
 script:
   - "ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
-  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo"
+  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo --extra-vars=\"plesk_release_id=$PLESK_VERSION\""
     #  - "plesk version"
   - "cat /usr/local/psa/version"
 
