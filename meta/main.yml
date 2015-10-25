@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: tzermias
+  description: Install Plesk in EL/Ubuntu systems.
+  min_ansible_version: 1.9
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Ubuntu
+    versions:
+    - precise
+    - trusty
+  categories:
+  - packaging
+  - system
+  - web
+
+dependencies: []
+  
