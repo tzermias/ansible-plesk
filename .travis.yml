@@ -11,5 +11,7 @@ install:
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
 script:
-  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+  - "ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
+  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo"
+  - "plesk version"
 # vi: ts=2 sts=2 et sw=2 tw=80
