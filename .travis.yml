@@ -21,10 +21,6 @@ script:
   # Run playbook
   - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
      --extra-vars=\"plesk_release_id=$PLESK_VERSION\""
-  # Run playbook again for idemotency.
-  # Taken from: https://servercheck.in/blog/testing-ansible-roles-travis-ci-github
-  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
-     --extra-vars=\"plesk_release_id=$PLESK_VERSION\""
   # Check whether Plesk has actually been installed
   - "cat /usr/local/psa/version"
 
