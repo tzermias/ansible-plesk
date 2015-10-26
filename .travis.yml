@@ -16,9 +16,18 @@ install:
   - ansible -i tests/inventory --connection=local localhost -m setup
 
 script:
+  # Syntax checking
   - "ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
-  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo --extra-vars=\"plesk_release_id=$PLESK_VERSION\""
-    #  - "plesk version"
+  # Run playbook
+  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
+     --extra-vars=\"plesk_release_id=$PLESK_VERSION\""
+  # Run playbook again for idemotency.
+  # Taken from: https://servercheck.in/blog/testing-ansible-roles-travis-ci-github
+  # !! designates the previous command.
+  - "!! | grep -q 'changed=0.*failed=0' \
+     && (echo 'Idempotence test: pass' && exit 0) \
+     || (echo 'Idempotence test: fail' && exit 1)"
+  # Check whether Plesk has actually been installed
   - "cat /usr/local/psa/version"
 
 # vi: ts=2 sts=2 et sw=2 tw=80

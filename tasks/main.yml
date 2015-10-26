@@ -9,9 +9,13 @@
     creates: /usr/sbin/plesk
 
 - name: Run Plesk initial configuration
-  shell: plesk bin init_conf --init -passwd "{{admin_password}}" -email "{{ email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ hostname }}" -send_announce false -send_tech_announce false -company "{{ company }}" -name "{{ name }}" -phone "{{ phone }}" -address "{{ address }}" -city "{{ city }}" -state "{{ state }}" -zip "{{ zip }} " -country "{{ country }}"
+  shell: plesk bin init_conf --init -passwd "{{ plesk_admin_password }}" -email "{{ plesk_email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ plesk_hostname }}" -send_announce false -send_tech_announce false -company "{{ plesk_company }}" -name "{{ plesk_name }}" -phone "{{ plesk_phone }}" -address "{{ plesk_address }}" -city "{{ plesk_city }}" -state "{{ plesk_state }}" -zip "{{ plesk_zip }} " -country "{{ plesk_country }}"
 
 - name: Disable poweruser mode
   shell: plesk bin poweruser --off
+
+- name: Install Plesk license (if specified)
+  shell: plesk bin license --install "{{ plesk_license }}"
+  when: plesk_license != ""
 
 # vi: ts=2 sts=2 et sw=2 tw=80 
