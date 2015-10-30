@@ -11,6 +11,7 @@
 - name: Check whether Plesk has been configured
   command: plesk bin init_conf --check-configured
   register: result
+  ignore_errors: True
 
 - name: Run Plesk initial configuration
   shell: plesk bin init_conf --init -passwd "{{ plesk_admin_password }}" -email "{{ plesk_email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ plesk_hostname }}" -send_announce false -send_tech_announce false -company "{{ plesk_company }}" -name "{{ plesk_name }}" -phone "{{ plesk_phone }}" -address "{{ plesk_address }}" -city "{{ plesk_city }}" -state "{{ plesk_state }}" -zip "{{ plesk_zip }} " -country "{{ plesk_country }}"
