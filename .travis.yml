@@ -19,11 +19,11 @@ script:
   # Syntax checking
   - "ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
   # Run playbook
-  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
+  - "travis_wait ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
      --extra-vars=\"plesk_release_id=$PLESK_VERSION\""
   # Run playbook again for idempotency.
   # Source: https://servercheck.in/blog/testing-ansible-roles-travis-ci-github
-  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
+  - "travis_wait ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
      --extra-vars=\"plesk_release_id=$PLESK_VERSION\" "
 #| grep -q 'changed=0.*failed=0' \
 #       && (echo 'Idempotence test: pass' && exit 0) \
