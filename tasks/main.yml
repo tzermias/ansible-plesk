@@ -4,7 +4,7 @@
 - name: Download Plesk installer
   get_url: url=http://autoinstall.plesk.com/plesk-installer dest=/root/plesk-installer mode=0700
 - name: Run Plesk installer
-  shell: /root/plesk-installer --select-product-id=plesk --select-release-id "{{ plesk_release_id }}" --installation-type Typical
+  shell: /root/plesk-installer --select-product-id=plesk --select-release-id "{{ plesk.release_id }}" --installation-type Typical
   args:
     creates: /usr/sbin/plesk
 
@@ -14,14 +14,14 @@
   ignore_errors: True
 
 - name: Run Plesk initial configuration
-  shell: plesk bin init_conf --init -passwd "{{ plesk_admin_password }}" -email "{{ plesk_email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ plesk_hostname }}" -send_announce false -send_tech_announce false -company "{{ plesk_company }}" -name "{{ plesk_name }}" -phone "{{ plesk_phone }}" -address "{{ plesk_address }}" -city "{{ plesk_city }}" -state "{{ plesk_state }}" -zip "{{ plesk_zip }} " -country "{{ plesk_country }}"
+  shell: plesk bin init_conf --init -passwd "{{ plesk.admin_password }}" -email "{{ plesk.email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ plesk.hostname }}" -send_announce false -send_tech_announce false -company "{{ plesk.company }}" -name "{{ plesk.name }}" -phone "{{ plesk.phone }}" -address "{{ plesk.address }}" -city "{{ plesk.city }}" -state "{{ plesk.state }}" -zip "{{ plesk.zip }} " -country "{{ plesk.country }}"
   when: result|failed
 
 - name: Disable poweruser mode
   shell: plesk bin poweruser --off
 
 - name: Install Plesk license (if specified)
-  shell: plesk bin license --install "{{ plesk_license }}"
-  when: plesk_license != ""
+  shell: plesk bin license --install "{{ plesk.license }}"
+  when: plesk.license != ""
 
 # vi: ts=2 sts=2 et sw=2 tw=80 
