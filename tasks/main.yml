@@ -4,7 +4,7 @@
 - name: Download Plesk installer
   get_url: url=http://autoinstall.plesk.com/plesk-installer dest=/root/plesk-installer mode=0700
 - name: Run Plesk installer
-  shell: /root/plesk-installer --select-product-id=plesk --select-release-id "{{ plesk.release_id }}" --installation-type Typical
+  shell: /root/plesk-installer --select-product-id=plesk --select-release-id "{{ plesk.release_id }}" {%if plesk.install_components|length != 0 %} {{ plesk.install_components|join( ' ' ) }} {% else %} --installation-type Typical {% endif %}
   args:
     creates: /usr/sbin/plesk
 

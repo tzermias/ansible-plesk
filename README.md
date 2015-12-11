@@ -7,7 +7,8 @@ Status](https://travis-ci.org/tzermias/ansible-plesk.svg?branch=master)](https:/
 
 This role install Odin Plesk panel and runs the initial configuration script
 along with some predefined variables. The role performs a typical installation
-of Plesk components.
+of Plesk components. To perform installation of Plesk with additional
+components, check the `install_components` variable below.
 
 Role Variables
 --------------
@@ -32,8 +33,11 @@ the following variables are specified in `defaults/main.yml`
     country: GR
     release_id: PLESK_12_0_18
     license: ""
+    install_components: [ ]
 
-Change `admin_password` to something more secure.
+Change `admin_password` to something more secure. `install_components` is a list
+of Plesk components that should be installed. By default, this list is empty,
+and the installation is performed using typical components
 
 Example Playbook
 ----------------

@@ -2,7 +2,7 @@
 
 # Initial configuration variables
 plesk: {
-    admin_password: changemei,
+    admin_password: changeme,
     email: test@mycompany.com,
     hostname: server.myserver.com,
     company: My Company,
@@ -15,4 +15,8 @@ plesk: {
     country: GR,
     release_id: PLESK_12_0_18,
     license: "",
+    install_components: [ 
+#       "--install-component=common"
+#       "--install-component=web-server" 
+    ]
 }
