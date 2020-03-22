@@ -14,8 +14,8 @@
   ignore_errors: True
 
 - name: Run Plesk initial configuration
-  shell: plesk bin init_conf --init -passwd "{{ plesk.admin_password }}" -email "{{ plesk.email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ plesk.hostname }}" -send_announce false -send_tech_announce false -company "{{ plesk.company }}" -name "{{ plesk.name }}" -phone "{{ plesk.phone }}" -address "{{ plesk.address }}" -city "{{ plesk.city }}" -state "{{ plesk.state }}" -zip "{{ plesk.zip }} " -country "{{ plesk.country }}"
-  when: result|failed
+  shell: plesk bin init_conf --init -passwd "{{ plesk.admin_password }}" -email "{{ plesk.email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ plesk.hostname }}" -send_announce false -company "{{ plesk.company }}" -name "{{ plesk.name }}" -phone "{{ plesk.phone }}" -address "{{ plesk.address }}" -city "{{ plesk.city }}" -state "{{ plesk.state }}" -zip "{{ plesk.zip }} " -country "{{ plesk.country }}"
+  when: result.rc == 1
 
 - name: Disable poweruser mode
   shell: plesk bin poweruser --off
