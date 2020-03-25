@@ -1,0 +1,17 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: geerlingguy/docker-centos7-ansible:latest
+    command: ""
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+
+# vi: ts=2 sts=2 et sw=2

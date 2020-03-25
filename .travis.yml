@@ -1,35 +1,17 @@
 ---
 language: python
-python: "2.7"
+services: docker
 
-env:
-  - PLESK_VERSION=PLESK_12_5_30
-  - PLESK_VERSION=PLESK_12_0_18
-  - PLESK_VERSION=PLESK_11_5_30
-
-before_install:
-  - sudo apt-get update -qq
+#env:
+#  - PLESK_VERSION=PLESK_12_5_30
+#  - PLESK_VERSION=PLESK_12_0_18
+#  - PLESK_VERSION=PLESK_11_5_30
 
 install:
-  - pip install ansible
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-  - ansible -i tests/inventory --connection=local localhost -m setup
+  - pip install ansible molecule ansible-lint docker
 
 script:
-  # Syntax checking
-  - "ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
-  # Run playbook
-  - "travis_wait ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
-     --extra-vars=\"plesk_release_id=$PLESK_VERSION\""
-  # Run playbook again for idempotency.
-  # Source: https://servercheck.in/blog/testing-ansible-roles-travis-ci-github
-  - "travis_wait ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo \
-     --extra-vars=\"plesk_release_id=$PLESK_VERSION\" "
-#| grep -q 'changed=0.*failed=0' \
-#       && (echo 'Idempotence test: pass' && exit 0) \
-#       || (echo 'Idempotence test: fail' && exit 1)"
-
-  # Check whether Plesk has actually been installed
-  - "cat /usr/local/psa/version"
+  # Run tests with molecule
+  - travis_wait molecule converge
 
 # vi: ts=2 sts=2 et sw=2 tw=80
