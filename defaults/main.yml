@@ -16,7 +16,7 @@ plesk: {
     release_id: PLESK_12_0_18,
     license: "",
     install_components: [ 
-#       "--install-component=common"
+#       "--install-component=common",
 #       "--install-component=web-server" 
     ]
 }
