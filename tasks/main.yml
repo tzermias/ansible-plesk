@@ -2,9 +2,19 @@
 
 #TODO: Maybe some checks here for disk size, open ports etc.
 - name: Download Plesk installer
-  get_url: url=http://autoinstall.plesk.com/plesk-installer dest=/root/plesk-installer mode=0700
+  get_url:
+    url: http://autoinstall.plesk.com/plesk-installer
+    dest: /root/plesk-installer
+    mode: 0700
+
 - name: Run Plesk installer
-  shell: /root/plesk-installer --select-product-id=plesk --select-release-id "{{ plesk.release_id }}" {%if plesk.install_components|length != 0 %} {{ plesk.install_components|join( ' ' ) }} {% else %} --installation-type Typical {% endif %}
+  command: /root/plesk-installer --select-product-id=plesk \
+              --select-release-id "{{ plesk.release_id }}" \
+            {%- if plesk.install_components|length != 0 %}
+              {{ plesk.install_components|join( ' ' ) -}}
+            {% else %}
+              --installation-type Typical
+            {% endif -%}
   args:
     creates: /usr/sbin/plesk
 
@@ -14,14 +24,30 @@
   ignore_errors: True
 
 - name: Run Plesk initial configuration
-  shell: plesk bin init_conf --init -passwd "{{ plesk.admin_password }}" -email "{{ plesk.email }}" -license_agreed true -default-ip "{{ ansible_default_ipv4.address }}" -ip-type shared -hostname "{{ plesk.hostname }}" -send_announce false -company "{{ plesk.company }}" -name "{{ plesk.name }}" -phone "{{ plesk.phone }}" -address "{{ plesk.address }}" -city "{{ plesk.city }}" -state "{{ plesk.state }}" -zip "{{ plesk.zip }} " -country "{{ plesk.country }}"
+  command: plesk bin init_conf \
+              --init \
+              -passwd "{{ plesk.admin_password }}" \
+              -email "{{ plesk.email }}" \
+              -license_agreed true \
+              -default-ip "{{ ansible_default_ipv4.address }}" \
+              -ip-type shared \
+              -hostname "{{ plesk.hostname }}" \
+              -send_announce false \
+              -company "{{ plesk.company }}" \
+              -name "{{ plesk.name }}" \
+              -phone "{{ plesk.phone }}" \
+              -address "{{ plesk.address }}" \
+              -city "{{ plesk.city }}" \
+              -state "{{ plesk.state }}" \
+              -zip "{{ plesk.zip }} " \
+              -country "{{ plesk.country }}"
   when: result.rc == 1
 
 - name: Disable poweruser mode
-  shell: plesk bin poweruser --off
+  command: plesk bin poweruser --off
 
 - name: Install Plesk license (if specified)
-  shell: plesk bin license --install "{{ plesk.license }}"
+  command: plesk bin license --install "{{ plesk.license }}"
   when: plesk.license != ""
 
 # vi: ts=2 sts=2 et sw=2 tw=80 
