@@ -13,5 +13,7 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  ansible_args:
+    - --extra-vars=plesk_release_id=${PLESK_RELEASE_ID:-PLESK_17_0_18}
 
 # vi: ts=2 sts=2 et sw=2

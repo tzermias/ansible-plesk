@@ -1,0 +1,27 @@
+---
+name: Molecule
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible molecule[docker] docker
+
+      - name: Run Molecule tests
+        run: molecule converge
+        env:
+          PLESK_RELEASE_ID: PLESK_18_0_32
