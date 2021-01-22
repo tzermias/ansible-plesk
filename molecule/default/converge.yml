@@ -1,5 +1,21 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    plesk:
+      admin_password: changeme
+      email: test@mycompany.com
+      hostname: server.myserver.com
+      company: My Company
+      name: Hosting Services
+      phone: +1234567890
+      address: Address Str. 1
+      city: My City
+      state: My State
+      zip: 12345
+      country: GR
+      release_id: '{{ plesk_release_id }}'
+      license: ""
+      install_components: []
   roles:
     - ansible-plesk
